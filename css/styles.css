@@ -1,32 +1,21 @@
-/* ============================================
-   CONFIGURACIÓN Y VARIABLES
-   ============================================ */
 :root {
-    /* Paleta de Colores Corporativa */
-    --primary: #5D4037;       /* Marrón Roble - Elegancia y Tierra */
+    --primary: #5D4037;
     --primary-dark: #3E2B24;
-    --accent: #D4AF37;        /* Dorado Madera - Calidad */
-    --success: #25D366;       /* Verde WhatsApp */
+    --accent: #D4AF37;
+    --success: #25D366;
     --text-main: #2C3E50;
     --text-light: #607D8B;
     --bg-light: #F9FAFB;
     --bg-white: #FFFFFF;
-    
-    /* UI System */
     --radius-md: 12px;
     --radius-lg: 20px;
     --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
     --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Tipografía */
     --font-head: 'Playfair Display', serif;
     --font-body: 'Source Sans Pro', sans-serif;
 }
 
-/* ============================================
-   RESET & BASE
-   ============================================ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
@@ -77,9 +66,6 @@ img { max-width: 100%; display: block; }
 
 .btn-outline:hover { background: white; color: var(--primary); }
 
-/* ============================================
-   HEADER
-   ============================================ */
 .header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -187,9 +173,6 @@ img { max-width: 100%; display: block; }
 .menu-toggle { display: none; background: none; border: none; color: white; cursor: pointer; }
 .header.scrolled .menu-toggle { color: var(--text-main); }
 
-/* ============================================
-   HERO SECTION
-   ============================================ */
 .hero {
     position: relative;
     height: 100vh;
@@ -197,7 +180,7 @@ img { max-width: 100%; display: block; }
     align-items: center;
     background: url('../img/WhatsApp Image 2026-01-07 at 6.49.28 PM.jpeg') center 45%/cover;
     color: white;
-    margin-bottom: 0; /* Asegurar que no haya margen inferior */
+    margin-bottom: 0;
 }
 
 .hero-overlay {
@@ -245,9 +228,6 @@ img { max-width: 100%; display: block; }
     letter-spacing: 1px;
 }
 
-/* ============================================
-   SECCIONES GENERALES
-   ============================================ */
 section { padding: 5rem 0; }
 
 .section-header { margin-bottom: 4rem; text-align: center; }
@@ -268,7 +248,6 @@ section { padding: 5rem 0; }
     transform: translateY(0);
 }
 
-/* ABOUT */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 
 .about-image-wrapper { position: relative; }
@@ -308,7 +287,6 @@ section { padding: 5rem 0; }
 }
 .feature-list i { color: var(--success); }
 
-/* PRODUCTOS */
 .products { background: white; }
 
 .filter-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; }
@@ -364,7 +342,6 @@ section { padding: 5rem 0; }
     margin-top: 1rem;
 }
 
-/* SERVICIOS */
 .services { background: var(--primary); color: white; }
 .services h2 { color: white; }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
@@ -565,7 +542,6 @@ section { padding: 5rem 0; }
     color: rgba(255,255,255,0.85);
 }
 
-/* CONTACTO */
 .contact-wrapper {
     display: grid; grid-template-columns: 1.5fr 1fr;
     background: white; border-radius: var(--radius-lg);
@@ -607,7 +583,6 @@ section { padding: 5rem 0; }
 
 .input-error { border-color: #c62828 !important; }
 
-/* FOOTER */
 .footer {
     background: var(--primary-dark);
     color: rgba(255,255,255,0.75);
@@ -723,7 +698,6 @@ section { padding: 5rem 0; }
     color: rgba(255,255,255,0.62);
 }
 
-/* FLOATING BUTTON */
 .float-wa {
     position: fixed; bottom: 30px; right: 30px;
     background: var(--success); color: white;
@@ -734,7 +708,6 @@ section { padding: 5rem 0; }
 }
 .float-wa:hover { transform: scale(1.1); }
 
-/* RESPONSIVE */
 @media (max-width: 992px) {
     .services-grid { grid-template-columns: repeat(2, 1fr); }
     .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
@@ -769,7 +742,6 @@ section { padding: 5rem 0; }
         line-height: 1.2;
     }
     
-    /* Ajuste para el color del icono de menú al abrir */
     .menu-toggle.active { color: var(--text-main); position: fixed; right: 24px; top: 24px; }
 }
 

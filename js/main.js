@@ -1,20 +1,10 @@
-/* ============================================
-   ASERRADERO LA VICTORIA - LOGICA PRINCIPAL
-   ============================================ */
-
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. INICIALIZACIÓN
-    // ===========================
-    // Los iconos Feather se inicializan en el HTML, pero aseguramos
     if (typeof feather !== 'undefined') {
         feather.replace();
     }
 
-    // 2. HEADER EFECTO SCROLL
-    // ===========================
     const header = document.querySelector('.header');
-    
+
     const handleScroll = () => {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -24,19 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check inicial
+    handleScroll();
 
-    // 3. MENÚ MÓVIL
-    // ===========================
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
+
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             this.classList.toggle('active');
-            
-            // Cambiar icono según estado
+
             const icon = this.querySelector('svg');
             if (navMenu.classList.contains('active')) {
                 this.innerHTML = '<i data-feather="x"></i>';
@@ -46,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof feather !== 'undefined') feather.replace();
         });
 
-        // Cerrar al hacer click en enlace
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
@@ -57,23 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 4. SISTEMA DE FILTRADO (PRODUCTOS)
-    // ===========================
     const tabButtons = document.querySelectorAll('.tab-btn');
     const productCards = document.querySelectorAll('.product-card');
 
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remover clase active de todos
             tabButtons.forEach(b => b.classList.remove('active'));
-            // Activar botón actual
             btn.classList.add('active');
 
             const filterValue = btn.getAttribute('data-filter');
 
             productCards.forEach(card => {
                 const category = card.getAttribute('data-category');
-                
+
                 if (filterValue === 'all' || filterValue === category) {
                     card.style.display = 'block';
                     card.classList.remove('is-filtered-out');
@@ -87,16 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 5. ANIMACIÓN DE CONTADORES (Intersection Observer)
-    // ===========================
     const counters = document.querySelectorAll('.stat-number');
     let hasAnimated = false;
 
     const animateCounters = () => {
         counters.forEach(counter => {
             const target = +counter.getAttribute('data-target');
-            const duration = 2000; // ms
-            const increment = target / (duration / 16); // 60fps
+            const duration = 2000;
+            const increment = target / (duration / 16);
 
             let current = 0;
             const updateCount = () => {
@@ -122,10 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const aboutSection = document.querySelector('.about');
     if (aboutSection) sectionObserver.observe(aboutSection);
 
-    // 6. SCROLL ANIMATIONS (Fade In Up)
-    // ===========================
     const scrollElements = document.querySelectorAll('.animate-on-scroll');
-    
+
     const scrollAnimObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -162,21 +140,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 7. FORMULARIO WHATSAPP
-    // ===========================
     const form = document.getElementById('whatsapp-form');
-    
+
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const nombre = document.getElementById('wa-nombre');
             const telefono = document.getElementById('wa-telefono');
             const servicio = document.getElementById('wa-servicio');
             const mensaje = document.getElementById('wa-mensaje');
             const alertBox = document.getElementById('wa-alert');
 
-            // Validación simple
             let isValid = true;
             [nombre, telefono, mensaje].forEach(input => {
                 if (!input.value.trim()) {
@@ -195,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             alertBox.style.display = 'none';
 
-            // Construir Mensaje
             const phoneNumber = '573232429428';
             const textLines = [
                 'Bienvenido(a) a Aserradero La Victoria.',
@@ -207,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
         });
 
-        // Limpiar errores al escribir
         const inputs = form.querySelectorAll('input, textarea, select');
         inputs.forEach(input => {
             input.addEventListener('input', () => {
@@ -218,14 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 8. GOOGLE MAPS ROUTING
-    // ===========================
     window.abrirRuta = function(event) {
         event.preventDefault();
         const btn = event.currentTarget;
         const originalText = btn.innerHTML;
-        
-        // UI Feedback
+
         btn.innerHTML = '📍 Abriendo Maps...';
         btn.style.pointerEvents = 'none';
 
@@ -234,20 +204,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let url;
         if (/Android/i.test(navigator.userAgent)) {
-            // Android: Abre Google Maps y traza ruta desde ubicación actual
             url = `google.navigation:q=${destinoLat},${destinoLng}`;
         } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            // iOS: Abre Apple Maps con ruta desde ubicación actual
-            url = `maps://?daddr=${destinoLat},${destinoLng}&saddr=current`;
+            url = `comgooglemaps://?daddr=${destinoLat},${destinoLng}`;
         } else {
-            // Desktop: Abre Google Maps web con destino
             url = `https://maps.google.com/maps?daddr=${destinoLat},${destinoLng}`;
         }
 
-        // Abrir la URL (abre app en móviles)
         window.location.href = url;
-        
-        // Reset UI después de un tiempo
+
         setTimeout(() => {
             btn.innerHTML = originalText;
             btn.style.pointerEvents = 'auto';
