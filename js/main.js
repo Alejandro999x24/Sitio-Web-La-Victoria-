@@ -226,37 +226,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const originalText = btn.innerHTML;
         
         // UI Feedback
-        btn.innerHTML = '📍 Localizando...';
+        btn.innerHTML = '📍 Abriendo Maps...';
         btn.style.pointerEvents = 'none';
 
         const destinoLat = 5.7339704;
         const destinoLng = -73.085784;
 
-        const openMaps = (lat = null, lng = null) => {
-            let url;
-            if (lat && lng) {
-                url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${destinoLat},${destinoLng}&travelmode=driving`;
-            } else {
-                url = `https://www.google.com/maps/dir/?api=1&destination=${destinoLat},${destinoLng}&travelmode=driving`;
-            }
-            window.open(url, '_blank');
-            
-            // Reset UI
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.pointerEvents = 'auto';
-                if (typeof feather !== 'undefined') feather.replace();
-            }, 1000);
-        };
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => openMaps(pos.coords.latitude, pos.coords.longitude),
-                () => openMaps() // Error o rechazo -> abre solo destino
-            );
+        let url;
+        if (/Android/i.test(navigator.userAgent)) {
+            // Android: Abre Google Maps y traza ruta desde ubicación actual
+            url = `google.navigation:q=${destinoLat},${destinoLng}`;
+        } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // iOS: Abre Apple Maps con ruta desde ubicación actual
+            url = `maps://?daddr=${destinoLat},${destinoLng}&saddr=current`;
         } else {
-            openMaps(); // No soporte -> abre solo destino
+            // Desktop: Abre Google Maps web con destino
+            url = `https://maps.google.com/maps?daddr=${destinoLat},${destinoLng}`;
         }
+
+        // Abrir la URL (abre app en móviles)
+        window.location.href = url;
+        
+        // Reset UI después de un tiempo
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.pointerEvents = 'auto';
+            if (typeof feather !== 'undefined') feather.replace();
+        }, 2000);
     };
 
 });
