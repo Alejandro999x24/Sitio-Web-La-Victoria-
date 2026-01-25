@@ -20,25 +20,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
 
     if (menuToggle && navMenu) {
+        const setMenuIcon = (name) => {
+            menuToggle.innerHTML = '';
+            const i = document.createElement('i');
+            i.setAttribute('data-feather', name);
+            menuToggle.appendChild(i);
+            if (typeof feather !== 'undefined') feather.replace();
+        };
+
         menuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             this.classList.toggle('active');
-
-            const icon = this.querySelector('svg');
             if (navMenu.classList.contains('active')) {
-                this.innerHTML = '<i data-feather="x"></i>';
+                setMenuIcon('x');
             } else {
-                this.innerHTML = '<i data-feather="menu"></i>';
+                setMenuIcon('menu');
             }
-            if (typeof feather !== 'undefined') feather.replace();
         });
 
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 menuToggle.classList.remove('active');
-                menuToggle.innerHTML = '<i data-feather="menu"></i>';
-                if (typeof feather !== 'undefined') feather.replace();
+                setMenuIcon('menu');
             });
         });
     }
@@ -171,10 +175,16 @@ document.addEventListener('DOMContentLoaded', function() {
             alertBox.style.display = 'none';
 
             const phoneNumber = '573232429428';
+            const escape = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+            const phoneSafe = String(telefono.value || '').replace(/\D/g, '') || 'N/A';
+
             const textLines = [
                 'Bienvenido(a) a Aserradero La Victoria.',
-                'Gracias por contactarnos. Para atenderte mejor, compártenos tu pedido:',
-                '',
+                'Nuevo pedido:',
+                `Nombre: ${escape(nombre.value)}`,
+                `Teléfono: ${escape(phoneSafe)}`,
+                `Servicio: ${escape(servicio.value)}`,
+                `Mensaje: ${escape(mensaje.value)}`
             ];
 
             const text = encodeURIComponent(textLines.join('\n'));
@@ -194,9 +204,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.abrirRuta = function(event) {
         event.preventDefault();
         const btn = event.currentTarget;
-        const originalText = btn.innerHTML;
+        const originalHTML = btn.innerHTML;
 
-        btn.innerHTML = '📍 Abriendo Maps...';
+        btn.textContent = '📍 Abriendo Maps...';
         btn.style.pointerEvents = 'none';
 
         const destinoLat = 5.7339704;
@@ -214,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = url;
 
         setTimeout(() => {
-            btn.innerHTML = originalText;
+            btn.innerHTML = originalHTML;
             btn.style.pointerEvents = 'auto';
             if (typeof feather !== 'undefined') feather.replace();
         }, 2000);
