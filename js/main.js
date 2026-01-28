@@ -212,16 +212,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const destinoLat = 5.7339704;
         const destinoLng = -73.085784;
 
-        let url;
-        if (/Android/i.test(navigator.userAgent)) {
-            url = `google.navigation:q=${destinoLat},${destinoLng}`;
-        } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            url = `comgooglemaps://?daddr=${destinoLat},${destinoLng}`;
-        } else {
-            url = `https://maps.google.com/maps?daddr=${destinoLat},${destinoLng}`;
-        }
+        let url = `https://maps.google.com/maps?daddr=${destinoLat},${destinoLng}`;
+        // Mensaje de depuración para saber si la función se ejecuta
+        console.log('Botón Cómo llegar clickeado. Redirigiendo a:', url);
 
-        window.location.href = url;
+        let win = null;
+        try {
+            win = window.open(url, '_blank');
+        } catch (e) {
+            win = null;
+        }
+        if (!win) {
+            // Si window.open falla, intenta con location.href
+            try {
+                window.location.href = url;
+            } catch (e2) {
+                alert('No se pudo abrir Google Maps. Por favor, revisa la configuración de tu navegador.');
+            }
+        }
 
         setTimeout(() => {
             btn.innerHTML = originalHTML;
